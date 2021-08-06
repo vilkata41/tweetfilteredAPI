@@ -39,6 +39,9 @@ public class TwitterInfo {
 						else media.add(s.getMediaEntities()[i].getMediaURL());
 					}
 				}
+				else{
+					media = null;
+				}
 					allPosts.add(new Post((s.getId()), s.getUser().getName(), s.getText().toString().replaceAll("https://t.co/[a-zA-Z_0-9]*",""), media));
 
 				
