@@ -78,6 +78,13 @@
 					</excludes>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>com.google.appengine</groupId>
+				<artifactId>appengine-maven-plugin</artifactId>
+				<version>1.9.9</version>
+			</plugin>
+
 		</plugins>
 	</build>
 
