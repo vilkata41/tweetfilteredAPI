@@ -1,13 +1,10 @@
 package com.example.tweetfilteredAPI.post;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import twitter4j.*;
 import twitter4j.conf.*;
-
-import javax.annotation.Nonnull;
 
 public class TwitterInfo {
 
