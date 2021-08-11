@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/v1/posts")
+
 public class PostController {
 
     private final PostService pservice;
@@ -17,6 +17,11 @@ public class PostController {
     @Autowired
     public PostController(PostService pservice) {this.pservice = pservice;}
 
+    @RequestMapping(path = "/api/tweetfilteredV1/all")
     @GetMapping
     public List<Post> getPosts(){return pservice.getPosts();}
+
+    @RequestMapping(path = "/api/tweetfilteredV1/recent")
+    @GetMapping
+    public Post getPost(){return pservice.getRecent();}
 }

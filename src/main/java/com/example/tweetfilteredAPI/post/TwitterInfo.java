@@ -15,10 +15,10 @@ public class TwitterInfo {
 
 		ConfigurationBuilder configurationBuilder = new ConfigurationBuilder(); 							// Set up the configuration builder
 		configurationBuilder.setDebugEnabled(true).setOAuthConsumerKey(ImportantConstants.CONSUMER_KEY) 	// For everything to work properly with Twitter's API
-						.setOAuthConsumerSecret(ImportantConstants.CONSUMER_SECRET)							// We'd need the consumer key and secret AND
-						.setOAuthAccessToken(ImportantConstants.ACCESS_TOKEN)								// The access token and secret.
-						.setOAuthAccessTokenSecret(ImportantConstants.TOKEN_SECRET);
-		
+				.setOAuthConsumerSecret(ImportantConstants.CONSUMER_SECRET)							// We'd need the consumer key and secret AND
+				.setOAuthAccessToken(ImportantConstants.ACCESS_TOKEN)								// The access token and secret.
+				.setOAuthAccessTokenSecret(ImportantConstants.TOKEN_SECRET);
+
 		Twitter twitter = new TwitterFactory(configurationBuilder.build()).getInstance(); // Getting the instance for the twitter account.
 		
 		try {
@@ -26,7 +26,6 @@ public class TwitterInfo {
 			List<Status> mentionedStatuses = twitter.getMentionsTimeline(); // Filling a list with the tweets we're menitioned in.
 			
 			for (Status s: mentionedStatuses) {
-
 				
 				if(s.getMediaEntities().length > 0) {
 					media = new ArrayList<String>();
@@ -54,6 +53,46 @@ public class TwitterInfo {
 			System.out.println("Problem with TwitterInfo...");
 		}
 		return allPosts;
+	}
+
+	public Post getRecent() {
+		Post recent = null;
+		List<String> media = null;
+
+		ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();                            // Set up the configuration builder
+		configurationBuilder.setDebugEnabled(true).setOAuthConsumerKey(ImportantConstants.CONSUMER_KEY)    // For everything to work properly with Twitter's API
+				.setOAuthConsumerSecret(ImportantConstants.CONSUMER_SECRET)                            // We'd need the consumer key and secret AND
+				.setOAuthAccessToken(ImportantConstants.ACCESS_TOKEN)                                // The access token and secret.
+				.setOAuthAccessTokenSecret(ImportantConstants.TOKEN_SECRET);
+
+		Twitter twitter = new TwitterFactory(configurationBuilder.build()).getInstance(); // Getting the instance for the twitter account.
+		try {
+			User user = twitter.verifyCredentials(); // Getting the actual tweetfiltered account on twitter.
+			List<Status> mentionedStatuses = twitter.getMentionsTimeline(); // Filling a list with the tweets we're menitioned in.
+			Status s = mentionedStatuses.get(0);
+
+			if (s.getMediaEntities().length > 0) {
+				media = new ArrayList<String>();
+
+				for (int i = 0; i < s.getMediaEntities().length; i++) {
+					if (s.getMediaEntities()[i].getType().equals("video"))
+						media.add(s.getMediaEntities()[i].getVideoVariants()[0].getUrl()); // We get the video in its mp4 variant
+					else media.add(s.getMediaEntities()[i].getMediaURL());
+				}
+			} else {
+				media = null;
+			}
+			recent = new Post((s.getId()), s.getUser().getName(), s.getText().toString().replaceAll("https://t.co/[a-zA-Z_0-9]*", ""), media);
+
+		} catch (TwitterException ex) { // We catch the exception and handle it.
+			ex.printStackTrace();
+			System.out.println("Failed to get tweets.");
+			System.exit(-1);
+		} catch (Exception ex) {
+			System.out.println("Problem with TwitterInfo...");
+		}
+
+		return recent;
 	}
 
 }

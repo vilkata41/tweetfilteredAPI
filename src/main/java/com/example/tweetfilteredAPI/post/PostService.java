@@ -12,4 +12,8 @@ public class PostService {
     public List<Post> getPosts(){
         return ti.getPosts();
     }
+
+    public Post getRecent(){
+        return ti.getRecent();
+    }
 }
