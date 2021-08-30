@@ -1,7 +1,10 @@
 package com.example.tweetfilteredAPI.post;
 
 import java.util.List;
-
+/*
+The class has basic structure and is made to make information access easier for the program.
+It has basic getters and setters, alongside with a toString method.
+ */
 public class Post {
 
     private Long id;
